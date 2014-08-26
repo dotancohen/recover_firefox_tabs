@@ -10,6 +10,7 @@ Support specified search path including ~/.mozilla and other subdirectories
 
 """
 
+import json
 import os
 import sys
 
@@ -84,8 +85,31 @@ def getValidRecoveredName(base_directory):
 
 def recoverSessionTabs(session_file, recovered_name):
 
-	# TODO
-	print(session_file + ' ' + recovered_name)
+	input_file = open(session_file, 'r')
+	output_file = open(recovered_name, 'w')
+
+	code = json.loads(input_file.readline())
+
+	output_format = '<li><a href="%s">%s</a></li>'
+
+	output_file.write("""
+	<html><head>
+		<title>Recovered Firefox Tabs</title>
+	</head><body>
+		<h1>Recovered Firefox Tabs</h1>
+		<ol>
+	""")
+
+	for tab in code['windows'][0]['tabs']:
+		url = tab['entries'][-1]['url']
+		title = tab['entries'][-1]['title']
+		output_file.write(output_format % (url, title, ))
+
+
+	output_file.write("""
+		</ol>
+	</body></html>
+	""")
 
 	return True
 
