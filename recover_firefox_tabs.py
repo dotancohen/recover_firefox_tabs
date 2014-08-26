@@ -7,12 +7,21 @@ Application to restore Firefox tabs when Firefox forgets a session.
 """
 
 import os
+import sys
 
 
 
-def main():
+def main(argv):
 
-	mozilla_directory = os.getcwd() + '/.mozilla/'
+	if len(argv)>1:
+		base_search_dir = argv[1]
+	else:
+		base_search_dir = os.getcwd()
+
+	if not base_search_dir.endswith('/'):
+		base_search_dir += '/'
+
+	mozilla_directory = base_search_dir + '.mozilla/'
 	session_file_canonical_name = 'sessionstore.bak'
 	base_directory_for_recovered_files = os.getcwd()
 
@@ -80,4 +89,4 @@ def recoverSessionTabs(session_file, recovered_name):
 
 
 if __name__ == '__main__':
-	main()
+	main(sys.argv)
