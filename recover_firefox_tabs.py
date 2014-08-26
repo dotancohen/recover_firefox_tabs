@@ -85,8 +85,11 @@ def getValidRecoveredName(base_directory):
 
 def recoverSessionTabs(session_file, recovered_name):
 
-	input_file = open(session_file, 'r')
-	output_file = open(recovered_name, 'w')
+	# $ file -i sessionstore.bak
+	# sessionstore.bak: text/html; charset=utf-8
+
+	input_file = open(session_file, 'r', encoding='UTF-8')
+	output_file = open(recovered_name, 'w', encoding='UTF-8')
 
 	code = json.loads(input_file.readline())
 	found_urls = []
@@ -95,6 +98,7 @@ def recoverSessionTabs(session_file, recovered_name):
 	output_file.write("""
 	<html><head>
 		<title>Recovered Firefox Tabs</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	</head><body>
 		<h1>Recovered Firefox Tabs</h1>
 		<ol>
