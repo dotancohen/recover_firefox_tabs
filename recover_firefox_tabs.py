@@ -89,7 +89,7 @@ def recoverSessionTabs(session_file, recovered_name):
 	output_file = open(recovered_name, 'w')
 
 	code = json.loads(input_file.readline())
-
+	found_urls = []
 	output_format = '<li><a href="%s">%s</a></li>'
 
 	output_file.write("""
@@ -102,8 +102,10 @@ def recoverSessionTabs(session_file, recovered_name):
 
 	for tab in code['windows'][0]['tabs']:
 		url = tab['entries'][-1]['url']
-		title = tab['entries'][-1]['title']
-		output_file.write(output_format % (url, title, ))
+		if not url in found_urls:
+			found_urls.append(url)
+			title = tab['entries'][-1]['title']
+			output_file.write(output_format % (url, title, ))
 
 
 	output_file.write("""
