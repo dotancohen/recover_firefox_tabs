@@ -18,6 +18,10 @@ def main():
 
 	session_files = getFirefoxSessionFiles(mozilla_directory, session_file_canonical_name)
 
+	if len(session_files)==0:
+		print("No Firefox profiles found.")
+		return False
+
 	for session_file in session_files:
 		recovered_name = getValidRecoveredName(base_directory_for_recovered_files)
 		recoverSessionTabs(session_file, recovered_name)
