@@ -18,18 +18,17 @@ import sys
 def main(argv):
 
 	if len(argv)>1:
-		base_search_dir = argv[1]
+		search_directory = argv[1]
 	else:
-		base_search_dir = os.getcwd()
+		search_directory = os.getcwd() + '/.mozilla/'
 
-	if not base_search_dir.endswith('/'):
-		base_search_dir += '/'
+	if not search_directory.endswith('/'):
+		search_directory += '/'
 
-	mozilla_directory = base_search_dir + '.mozilla/'
 	session_file_canonical_name = 'sessionstore.bak'
 	base_directory_for_recovered_files = os.getcwd()
 
-	session_files = getFirefoxSessionFiles(mozilla_directory, session_file_canonical_name)
+	session_files = getFirefoxSessionFiles(search_directory, session_file_canonical_name)
 
 	if len(session_files)==0:
 		print("No Firefox profiles found.")
@@ -43,11 +42,11 @@ def main(argv):
 
 
 
-def getFirefoxSessionFiles(mozilla_directory, session_file_canonical_name):
+def getFirefoxSessionFiles(search_directory, session_file_canonical_name):
 
 	session_files = []
 
-	for dirName, dirs, files in os.walk(mozilla_directory):
+	for dirName, dirs, files in os.walk(search_directory):
 		if session_file_canonical_name in files:
 			session_files.append(dirName + '/' + session_file_canonical_name)
 
