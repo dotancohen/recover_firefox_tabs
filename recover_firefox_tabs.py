@@ -6,7 +6,7 @@ Application to restore Firefox tabs when Firefox forgets a session.
 
 TODO
 ----
-Support specified search path including ~/.mozilla and other subdirectories
+Support non-Linux operating systems
 
 """
 
