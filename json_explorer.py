@@ -19,13 +19,41 @@ import sys
 def main(filename):
 
 	path = []
-	input_file = open(filename, 'r')
-	code = json.loads(input_file.readline())
+	try:
+		input_file = open(filename, 'r')
+	except Exception as e:
+		print('I need a real file!')
+		sys.exit(-1)
 
-	for x in code:
-		print(x)
+	try:
+		code = json.loads(input_file.readline())
+	except Exception as e:
+		print('Not JSON!')
+		sys.exit(-1)
+
+	output_location(path, code)
 
 	return True
+
+
+
+def output_location(path, code):
+
+	print(' -> '.join(path))
+
+	ordinal = 1
+	for x in code:
+		print('%2.0f: %s' % (ordinal, x,))
+		ordinal += 1
+
+	new_member = input('Select a new path member: ')
+
+	if new_member.isdigit():
+		print('nice!' + str(new_member))
+	else:
+		print('I need a digit!')
+
+	return path
 
 
 
