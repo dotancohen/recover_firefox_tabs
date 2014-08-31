@@ -19,6 +19,7 @@ import sys
 def main(filename):
 
 	path = []
+
 	try:
 		input_file = open(filename, 'r')
 	except Exception as e:
@@ -31,7 +32,8 @@ def main(filename):
 		print('Not JSON!')
 		sys.exit(-1)
 
-	output_location(path, code)
+	while True:
+		output_location(path, code)
 
 	return True
 
@@ -39,19 +41,33 @@ def main(filename):
 
 def output_location(path, code):
 
+	print('')
 	print(' -> '.join(path))
+	path_addition = []
 
 	ordinal = 1
 	for x in code:
 		print('%2.0f: %s' % (ordinal, x,))
+		path_addition.append(x)
 		ordinal += 1
 
-	new_member = input('Select a new path member: ')
+	while True:
+		new_member = input('Select a new path member: ')
 
-	if new_member.isdigit():
-		print('nice!' + str(new_member))
-	else:
-		print('I need a digit!')
+		if new_member.isdigit():
+			choosen = int(new_member)
+			if choosen<1:
+				print('Please enter a positive number!')
+				continue
+			if ordinal<choosen:
+				print('Please choose from the list!')
+				continue
+			break
+
+		else:
+			print('Please choose from the list')
+
+	path.append(path_addition[choosen-1])
 
 	return path
 
