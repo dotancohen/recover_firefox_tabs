@@ -59,22 +59,25 @@ def output_location(path, code):
 	while True:
 		new_member = input('Select a new path member: ')
 
-		if new_member.isdigit():
-			choosen = int(new_member)
-			if choosen<1:
-				print('Please enter a positive number!')
-				continue
-			if ordinal<choosen:
-				print('Please choose from the list!')
-				continue
-			break
-
-		else:
+		if not new_member.isdigit():
 			print('Please choose from the list')
 
-	path.append(path_addition[choosen-1])
+		choosen = int(new_member)
 
-	return path
+		if choosen<0:
+			print('Please enter a positive number!')
+			continue
+
+		if choosen==0:
+			return path[:-1]
+
+		if ordinal<choosen:
+			print('Please choose from the list!')
+			continue
+
+		break
+
+	return path.append(path_addition[choosen-1])
 
 
 
