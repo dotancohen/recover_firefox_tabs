@@ -43,10 +43,15 @@ def output_location(path, code):
 
 	print('')
 	print(' -> '.join(path))
-	path_addition = []
 
+	path_addition = []
 	ordinal = 1
-	for x in code:
+	current_element = code
+
+	for p in path:
+		current_element = current_element[p]
+
+	for x in current_element:
 		print('%2.0f: %s' % (ordinal, x,))
 		path_addition.append(x)
 		ordinal += 1
