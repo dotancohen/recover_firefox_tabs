@@ -41,12 +41,19 @@ def main(filename):
 
 def output_location(path, code):
 
-	print('')
-	print(' -> '.join(path))
-
-	path_addition = []
+	nozero = False
 	ordinal = 1
+	path_addition = []
 	current_element = code
+
+	print('')
+
+	if len(path)==0:
+		print('Top level!')
+		nozero = True
+	else:
+		print(' -> '.join(path))
+		print('%2.0f: %s' % (0, 'Up one level.',))
 
 	for p in path:
 		current_element = current_element[p]
@@ -61,6 +68,7 @@ def output_location(path, code):
 
 		if not new_member.isdigit():
 			print('Please choose from the list')
+			continue
 
 		choosen = int(new_member)
 
@@ -69,6 +77,10 @@ def output_location(path, code):
 			continue
 
 		if choosen==0:
+			if nozero:
+				print('Please choose from the list')
+				continue
+
 			return path[:-1]
 
 		if ordinal<choosen:
