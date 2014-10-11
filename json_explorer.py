@@ -2,11 +2,17 @@
 
 """
 
-Application to explore JSON files to learn their format.
+Application to explore JSON files
 
 TODO
-----
-Support non-Linux operating systems
+
+* Support non-Linux operating systems
+* Add search feature
+* Recursive tree view (display entire format N nodes deep)
+
+
+
+KNOWN ISSUES
 
 """
 
