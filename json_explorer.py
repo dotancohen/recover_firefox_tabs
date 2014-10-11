@@ -33,7 +33,7 @@ def main(filename):
 		sys.exit(-1)
 
 	while True:
-		output_location(path, code)
+		path = output_location(path, code)
 
 	return True
 
@@ -77,7 +77,8 @@ def output_location(path, code):
 
 		break
 
-	return path.append(path_addition[choosen-1])
+	path.append(path_addition[choosen-1])
+	return path
 
 
 
