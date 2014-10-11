@@ -19,17 +19,14 @@ import sys
 def main(argv):
 
 	if len(argv)>1:
-		search_directory = argv[1]
+		search_location = argv[1]
 	else:
-		search_directory = os.getcwd() + '/.mozilla/'
-
-	if not search_directory.endswith('/'):
-		search_directory += '/'
+		search_location = os.getcwd() + '/.mozilla/'
 
 	session_file_canonical_name = 'sessionstore.bak'
 	base_directory_for_recovered_files = os.getcwd()
 
-	session_files = getFirefoxSessionFiles(search_directory, session_file_canonical_name)
+	session_files = getFirefoxSessionFiles(search_location, session_file_canonical_name)
 
 	if len(session_files)==0:
 		print("No Firefox profiles found.")
@@ -43,11 +40,14 @@ def main(argv):
 
 
 
-def getFirefoxSessionFiles(search_directory, session_file_canonical_name):
+def getFirefoxSessionFiles(search_location, session_file_canonical_name):
 
 	session_files = []
 
-	for dirName, dirs, files in os.walk(search_directory):
+	if os.path.isfile(search_location):
+		return [search_location]
+
+	for dirName, dirs, files in os.walk(search_location):
 		if session_file_canonical_name in files:
 			session_files.append(dirName + '/' + session_file_canonical_name)
 
@@ -104,7 +104,8 @@ def recoverSessionTabs(session_file, recovered_name):
 		<ol>
 	""")
 
-	for tab in code['windows'][0]['tabs']:
+	for tab in code['_closedWindows'][0]['tabs']:
+	#for tab in code['windows'][0]['tabs']:
 		url = tab['entries'][-1]['url']
 		if not url in found_urls:
 			found_urls.append(url)
