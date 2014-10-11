@@ -58,9 +58,12 @@ def output_location(path, code):
 	for p in path:
 		current_element = current_element[p]
 
-	for x in current_element:
-		print('%2.0f: %s' % (ordinal, x,))
-		path_addition.append(x)
+	for ce in current_element:
+		ce_type = str(type(current_element[ce]))
+		ce_type = ce_type[ce_type.find("'")+1:]
+		ce_type = ce_type[:ce_type.find("'")]
+		print('%2.0f: %s (%s)' % (ordinal, ce, ce_type,))
+		path_addition.append(ce)
 		ordinal += 1
 
 	while True:
