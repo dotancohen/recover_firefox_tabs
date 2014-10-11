@@ -62,6 +62,10 @@ def output_location(path, code):
 		ce_type = str(type(current_element[ce]))
 		ce_type = ce_type[ce_type.find("'")+1:]
 		ce_type = ce_type[:ce_type.find("'")]
+
+		if ce_type in ['dict', 'list']:
+			ce_type += ' ' + str(len(current_element[ce]))
+
 		print('%2.0f: %s (%s)' % (ordinal, ce, ce_type,))
 		path_addition.append(ce)
 		ordinal += 1
