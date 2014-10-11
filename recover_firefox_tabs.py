@@ -104,12 +104,17 @@ def recoverSessionTabs(session_file, recovered_name):
 		<ol>
 	""")
 
-	for tab in code['_closedWindows'][0]['tabs']:
 	#for tab in code['windows'][0]['tabs']:
-		url = tab['entries'][-1]['url']
+	for tab in code['_closedWindows'][0]['tabs']:
+		#url = tab['entries'][-1]['url']
+		url = tab['entries'][0]['url']
 		if not url in found_urls:
 			found_urls.append(url)
-			title = tab['entries'][-1]['title']
+			#title = tab['entries'][-1]['title']
+			try:
+				title = tab['entries'][0]['title']
+			except KeyError as e:
+				title = url
 			output_file.write(output_format % (url, title, ))
 
 
