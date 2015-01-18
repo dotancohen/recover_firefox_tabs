@@ -59,18 +59,12 @@ def output_location(path, code):
 	path_addition = []
 	current_element = code
 
-	print('')
-
 	for p in path:
 		if type(current_element)==type([]):
 			p = int(p)
 		current_element = current_element[p]
 
-	if len(path)==0:
-		print('Top level!')
-		onTopLevel = True
-	else:
-		print(' -> '.join(path) + ' ' + str(type(current_element)))
+	print('\n\n/' + '/'.join(path) + ' ' + str(type(current_element)))
 
 
 
