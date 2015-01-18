@@ -105,7 +105,7 @@ def output_location(path, code):
 
 			return path[:-1]
 
-		if ordinal<choosen:
+		if ordinal<=choosen:
 			print('Please choose from the list!')
 			continue
 
