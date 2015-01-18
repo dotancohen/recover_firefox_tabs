@@ -72,17 +72,23 @@ def output_location(path, code):
 	else:
 		print(' -> '.join(path) + ' ' + str(type(current_element)))
 
+
+
 	if type(current_element)==type(42):
 		print("Int Value: %i" % (current_element,))
 		return path[:-1]
+
+
 
 	if type(current_element)==type('hello'):
 		print("Str Value: %s" % (current_element,))
 		return path[:-1]
 
-	if type(current_element)==type({'adam':'eve'}):
+
+
+	if type(current_element) in [type([]), type({})]:
 		for index, ce_sub in enumerate(current_element):
-			if type(ce_sub)==type([]):
+			if type(current_element)==type([]):
 				ce_sub_type = str(type(current_element[index]))
 			else:
 				ce_sub_type = str(type(current_element[ce_sub]))
@@ -92,11 +98,21 @@ def output_location(path, code):
 			# Types observered: dict lit int
 
 			if ce_sub_type in ['dict', 'list']:
-				ce_sub_type += ' ' + str(len(current_element[ce_sub]))
+				if type(current_element)==type([]):
+					ce_sub_type += ' ' + str(len(current_element[index]))
+				else:
+					ce_sub_type += ' ' + str(len(current_element[ce_sub]))
+				if type(ce_sub)==type({}): # This is neccessary as we are calling enumerate(), not .items()
+					ce_sub = str(index)
 
 			if ce_sub_type == 'str':
-				ce_sub_type += ' ' + ce_sub[:50]
-				if len(ce_sub)>50:
+				if type(current_element)==type([]):
+					ce_sub_type_append = ' ' + current_element[index]
+				else:
+					ce_sub_type_append = ' ' + current_element[ce_sub]
+
+				ce_sub_type += ce_sub_type_append[:50]
+				if len(ce_sub_type_append)>50:
 					ce_sub_type += '...'
 
 			if ce_sub_type == 'int':
@@ -105,6 +121,8 @@ def output_location(path, code):
 			print('%2.0f: %s (%s)' % (ordinal, ce_sub, ce_sub_type,))
 			path_addition.append(ce_sub)
 			ordinal += 1
+
+
 
 	if not onTopLevel:
 		print('%2.0f: %s' % (0, 'Up one level.',))
