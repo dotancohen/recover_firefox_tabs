@@ -72,6 +72,14 @@ def output_location(path, code):
 	else:
 		print(' -> '.join(path) + ' ' + str(type(current_element)))
 
+	if type(current_element)==type(42):
+		print("Int Value: %i" % (current_element,))
+		return path[:-1]
+
+	if type(current_element)==type('hello'):
+		print("Str Value: %s" % (current_element,))
+		return path[:-1]
+
 	for index, ce_sub in enumerate(current_element):
 		if type(ce_sub)==type([]):
 			ce_sub_type = str(type(current_element[index]))
