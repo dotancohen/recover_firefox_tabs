@@ -93,35 +93,50 @@ def recoverSessionTabs(session_file, recovered_name):
 
 	code = json.loads(input_file.readline())
 	found_urls = []
-	output_format = '<li><a href="%s">%s</a></li>'
+	output_format = '\t\t<li><a href="%s">%s</a></li>\n'
 
 	output_file.write("""
-	<html><head>
-		<title>Recovered Firefox Tabs</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	</head><body>
-		<h1>Recovered Firefox Tabs</h1>
-		<ol>
-	""")
+<html><head>
+	<title>Recovered Firefox Tabs</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head><body>
+	<h1>Recovered Firefox Tabs</h1>
+	<h2>Open windows</h2>
+	<ol>
+""")
+	for win in code['windows']:
+		for tab in win['tabs']:
+			url = tab['entries'][-1]['url']
+			if not url in found_urls:
+				found_urls.append(url)
+				try:
+					title = tab['entries'][0]['title']
+				except KeyError as e:
+					title = url
+				output_file.write(output_format % (url, title, ))
 
-	#for tab in code['windows'][0]['tabs']:
-	for tab in code['_closedWindows'][0]['tabs']:
-		#url = tab['entries'][-1]['url']
-		url = tab['entries'][0]['url']
-		if not url in found_urls:
-			found_urls.append(url)
-			#title = tab['entries'][-1]['title']
-			try:
-				title = tab['entries'][0]['title']
-			except KeyError as e:
-				title = url
-			output_file.write(output_format % (url, title, ))
+	output_file.write("""
+	</ol>
+	<h2>Closed Windows</h2>
+	<ol>
+""")
+
+	for win in code['_closedWindows']:
+		for tab in win['tabs']:
+			url = tab['entries'][0]['url']
+			if not url in found_urls:
+				found_urls.append(url)
+				try:
+					title = tab['entries'][-1]['title']
+				except KeyError as e:
+					title = url
+				output_file.write(output_format % (url, title, ))
 
 
 	output_file.write("""
-		</ol>
-	</body></html>
-	""")
+	</ol>
+</body></html>
+""")
 
 	return True
 
