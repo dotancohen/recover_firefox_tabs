@@ -104,16 +104,18 @@ def recoverSessionTabs(session_file, recovered_name):
 	<h2>Open windows</h2>
 	<ol>
 """)
+
 	for win in code['windows']:
 		for tab in win['tabs']:
-			url = tab['entries'][-1]['url']
-			if not url in found_urls:
-				found_urls.append(url)
-				try:
-					title = tab['entries'][0]['title']
-				except KeyError as e:
-					title = url
-				output_file.write(output_format % (url, title, ))
+			for entry in tab['entries']:
+				url = entry['url']
+				if not url in found_urls:
+					found_urls.append(url)
+					try:
+						title = entry['title']
+					except KeyError as e:
+						title = url
+					output_file.write(output_format % (url, title, ))
 
 	output_file.write("""
 	</ol>
@@ -123,15 +125,15 @@ def recoverSessionTabs(session_file, recovered_name):
 
 	for win in code['_closedWindows']:
 		for tab in win['tabs']:
-			url = tab['entries'][0]['url']
-			if not url in found_urls:
-				found_urls.append(url)
-				try:
-					title = tab['entries'][-1]['title']
-				except KeyError as e:
-					title = url
-				output_file.write(output_format % (url, title, ))
-
+			for entry in tab['entries']:
+				url = entry['url']
+				if not url in found_urls:
+					found_urls.append(url)
+					try:
+						title = entry['title']
+					except KeyError as e:
+						title = url
+					output_file.write(output_format % (url, title, ))
 
 	output_file.write("""
 	</ol>
